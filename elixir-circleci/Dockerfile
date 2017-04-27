@@ -1,8 +1,7 @@
 FROM ubuntu:xenial
 
 ENV \
-  LC_ALL='en_US.UTF-8'\
-  LC_CTYPE='en_US.UTF-8' \
+  LANG='C.UTF-8' \
   MIX_ENV='test' \
   TERM='xterm'
 
