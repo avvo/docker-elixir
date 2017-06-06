@@ -21,6 +21,8 @@ RUN \
   && apt-get -y install \
     esl-erlang=1:19.3 \
     elixir=1.4.1-1 \
+    build-essential \
+    mysql-server-5.6 \
   && rm -rf /var/lib/apt/lists/*
 
 RUN \
