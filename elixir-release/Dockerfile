@@ -1,8 +1,9 @@
-FROM alpine:3.5
+FROM alpine:3.6
 
 RUN \
   set -xe \
   && apk update \
+  && apk upgrade \
   && apk --no-cache --update add \
     libcrypto1.0 \
     libgcc \
