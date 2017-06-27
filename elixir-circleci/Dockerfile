@@ -29,4 +29,6 @@ RUN \
     "elixir=${ELIXIR_VERSION}" \
   && rm -rf /var/lib/apt/lists/* \
   && mix local.hex --force \
-  && mix local.rebar --force
+  && mix local.rebar --force \
+  && mkdir -p ~/.ssh \
+  && ssh-keyscan -t rsa github.com > ~/.ssh/known_hosts
