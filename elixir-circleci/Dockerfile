@@ -1,11 +1,14 @@
 FROM ubuntu:xenial
 
 ENV \
+  HOME=/opt/app/ \
   LANG='C.UTF-8' \
   MIX_ENV='test' \
   TERM='xterm' \
   ELIXIR_VERSION='1.4.5-1' \
   ERLANG_OTP_VERSION='20.0'
+
+WORKDIR /opt/app
 
 RUN \
   set -xe \
