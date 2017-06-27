@@ -31,4 +31,6 @@ RUN \
   && mix local.hex --force \
   && mix local.rebar --force \
   && mkdir -p ~/.ssh \
-  && ssh-keyscan -t rsa github.com > ~/.ssh/known_hosts
+  && ssh-keyscan -t rsa github.com > ~/.ssh/known_hosts \
+  && chmod 700 ~/.ssh \
+  && chmod 600 ~/.ssh/known_hosts
