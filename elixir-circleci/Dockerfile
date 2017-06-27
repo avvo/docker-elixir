@@ -30,7 +30,7 @@ RUN \
   && rm -rf /var/lib/apt/lists/* \
   && mix local.hex --force \
   && mix local.rebar --force \
-  && mkdir -p ~/.ssh \
-  && ssh-keyscan -t rsa github.com > ~/.ssh/known_hosts \
-  && chmod 700 ~/.ssh \
-  && chmod 600 ~/.ssh/known_hosts
+  && mkdir -p /root/.ssh \
+  && ssh-keyscan -t rsa github.com > /root/.ssh/known_hosts \
+  && chmod 700 /root/.ssh \
+  && chmod 600 /root/.ssh/known_hosts
