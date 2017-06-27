@@ -3,7 +3,9 @@ FROM ubuntu:xenial
 ENV \
   LANG='C.UTF-8' \
   MIX_ENV='test' \
-  TERM='xterm'
+  TERM='xterm' \
+  ELIXIR_VERSION='1.4.5-1' \
+  ERLANG_OTP_VERSION='20.0'
 
 RUN \
   set -xe \
@@ -20,10 +22,8 @@ RUN \
   && dpkg -i "/tmp/${ERLANG_PKG}" \
   && apt-get update \
   && apt-get -y install \
-    esl-erlang=1:19.3 \
-    elixir=1.4.1-1 \
-  && rm -rf /var/lib/apt/lists/*
-
-RUN \
-  mix local.hex --force \
+    "esl-erlang=1:${ERLANG_OTP_VERSION}" \
+    "elixir=${ELIXIR_VERSION}" \
+  && rm -rf /var/lib/apt/lists/* \
+  && mix local.hex --force \
   && mix local.rebar --force
