@@ -21,6 +21,8 @@ RUN \
     git \
     openssh-client \
     build-essential \
+    mysql-client \
+    libmysqlclient-dev \
   && curl -o "/tmp/${ERLANG_PKG}" ${ERLANG_URL} \
   && dpkg -i "/tmp/${ERLANG_PKG}" \
   && apt-get update \
