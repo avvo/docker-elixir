@@ -12,5 +12,5 @@ RUN \
   set -xe \
   && apt-get update \
   && apt-get -y upgrade \
-  && apt-get -y install openssl \
+  && apt-get -y install openssl wget \
   && rm -rf /var/lib/apt/lists/*
