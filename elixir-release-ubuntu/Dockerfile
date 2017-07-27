@@ -12,5 +12,5 @@ RUN \
   set -xe \
   && apt-get update \
   && apt-get -y upgrade \
-  && apt-get -y install openssl wget \
+  && apt-get -y install openssl wget mysql-client \
   && rm -rf /var/lib/apt/lists/*
