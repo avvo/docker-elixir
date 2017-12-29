@@ -1,8 +1,11 @@
 FROM ubuntu:xenial
 
+# For latest ERLANG_OTP_VERSION, see: https://packages.erlang-solutions.com/erlang/
+# For latest NODE_VERSION, see: https://github.com/nodesource/distributions/tree/master/deb
+
 ENV \
   ELIXIR_VERSION='1.5.2-1' \
-  ERLANG_OTP_VERSION='20.1' \
+  ERLANG_OTP_VERSION='20.1.7' \
   HOME='/opt/app/' \
   LANG='C.UTF-8' \
   MIX_ENV='test' \
@@ -13,29 +16,29 @@ WORKDIR "${HOME}"
 
 RUN \
   set -xe \
-  && ERLANG_PKG='erlang-solutions_1.0_all.deb' \
-  && ERLANG_URL="https://packages.erlang-solutions.com/${ERLANG_PKG}" \
-  && apt-get update \
-  && apt-get -y upgrade \
-  && apt-get -y install \
-    curl \
-    wget \
-  && curl -o "/tmp/${ERLANG_PKG}" ${ERLANG_URL} \
-  && dpkg -i "/tmp/${ERLANG_PKG}" \
-  && wget -qO- "https://deb.nodesource.com/setup_${NODE_VERSION}.x" | bash - \
-  && apt-get update \
-  && apt-get -y install \
-    "elixir=${ELIXIR_VERSION}" \
-    "esl-erlang=1:${ERLANG_OTP_VERSION}" \
+  && apt-get update -qq \
+  && apt-get upgrade -y \
+  && apt-get install -y \
     apt-transport-https \
     build-essential \
     ca-certificates \
+    curl \
     git \
     libmysqlclient-dev \
     mysql-client \
-    nodejs \
     openssh-client \
     software-properties-common \
+  && curl -sL "https://deb.nodesource.com/setup_${NODE_VERSION}.x" | bash - \
+  && ERLANG_PKG='erlang-solutions_1.0_all.deb' \
+  && ERLANG_URL="https://packages.erlang-solutions.com/${ERLANG_PKG}" \
+  && curl -o "/tmp/${ERLANG_PKG}" ${ERLANG_URL} \
+  && dpkg -i "/tmp/${ERLANG_PKG}" \
+  && apt-get update -qq \
+  && apt-get upgrade -y \
+  && apt-get install -y \
+    nodejs \
+    "elixir=${ELIXIR_VERSION}" \
+    "esl-erlang=1:${ERLANG_OTP_VERSION}" \
   && rm -rf '/var/lib/apt/lists/*' \
   && mix local.hex --force \
   && mix local.rebar --force \
