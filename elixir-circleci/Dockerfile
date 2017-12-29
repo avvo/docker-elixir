@@ -1,14 +1,15 @@
 FROM ubuntu:xenial
 
 ENV \
-  HOME=/opt/app/ \
+  ELIXIR_VERSION='1.5.2-1' \
+  ERLANG_OTP_VERSION='20.1' \
+  HOME='/opt/app/' \
   LANG='C.UTF-8' \
   MIX_ENV='test' \
-  TERM='xterm' \
-  ELIXIR_VERSION='1.5.1-1' \
-  ERLANG_OTP_VERSION='20.0'
+  NODE_VERSION='8' \
+  TERM='xterm'
 
-WORKDIR /opt/app
+WORKDIR "${HOME}"
 
 RUN \
   set -xe \
@@ -18,21 +19,27 @@ RUN \
   && apt-get -y upgrade \
   && apt-get -y install \
     curl \
-    git \
-    openssh-client \
-    build-essential \
-    mysql-client \
-    libmysqlclient-dev \
+    wget \
   && curl -o "/tmp/${ERLANG_PKG}" ${ERLANG_URL} \
   && dpkg -i "/tmp/${ERLANG_PKG}" \
+  && wget -qO- "https://deb.nodesource.com/setup_${NODE_VERSION}.x" | bash - \
   && apt-get update \
   && apt-get -y install \
-    "esl-erlang=1:${ERLANG_OTP_VERSION}" \
     "elixir=${ELIXIR_VERSION}" \
-  && rm -rf /var/lib/apt/lists/* \
+    "esl-erlang=1:${ERLANG_OTP_VERSION}" \
+    apt-transport-https \
+    build-essential \
+    ca-certificates \
+    git \
+    libmysqlclient-dev \
+    mysql-client \
+    nodejs \
+    openssh-client \
+    software-properties-common \
+  && rm -rf '/var/lib/apt/lists/*' \
   && mix local.hex --force \
   && mix local.rebar --force \
-  && mkdir -p /root/.ssh \
-  && ssh-keyscan -t rsa github.com > /root/.ssh/known_hosts \
-  && chmod 700 /root/.ssh \
-  && chmod 600 /root/.ssh/known_hosts
+  && mkdir -p '/root/.ssh' \
+  && ssh-keyscan -t rsa github.com > '/root/.ssh/known_hosts' \
+  && chmod 700 '/root/.ssh' \
+  && chmod 600 '/root/.ssh/known_hosts'
