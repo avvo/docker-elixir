@@ -10,7 +10,7 @@ containers at Avvo.
 4. Build and push an image with a version tag:
 ```
 cd elixir-circleci
-../push.sh '1.4.1-4'
+../push.sh '1.5.2-1c'
 ```
 
 Two notes:

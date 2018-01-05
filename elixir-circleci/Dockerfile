@@ -1,39 +1,49 @@
 FROM ubuntu:xenial
 
+# For latest ERLANG_OTP_VERSION, see: https://packages.erlang-solutions.com/erlang/
+# For latest NODE_VERSION, see: https://github.com/nodesource/distributions/tree/master/deb
+
 ENV \
-  HOME=/opt/app/ \
+  ELIXIR_VERSION='1.5.2-1' \
+  ERLANG_OTP_VERSION='20.1.7' \
+  HOME='/opt/app/' \
   LANG='C.UTF-8' \
   MIX_ENV='test' \
-  TERM='xterm' \
-  ELIXIR_VERSION='1.5.1-1' \
-  ERLANG_OTP_VERSION='20.0'
+  NODE_VERSION='8' \
+  TERM='xterm'
 
-WORKDIR /opt/app
+WORKDIR "${HOME}"
 
 RUN \
   set -xe \
-  && ERLANG_PKG='erlang-solutions_1.0_all.deb' \
-  && ERLANG_URL="https://packages.erlang-solutions.com/${ERLANG_PKG}" \
-  && apt-get update \
-  && apt-get -y upgrade \
-  && apt-get -y install \
+  && apt-get update -qq \
+  && apt-get upgrade -y \
+  && apt-get install -y \
+    apt-transport-https \
+    build-essential \
+    ca-certificates \
     curl \
     git \
-    openssh-client \
-    build-essential \
-    mysql-client \
     libmysqlclient-dev \
     postgresql-client \
+    mysql-client \
+    openssh-client \
+    software-properties-common \
+  && curl -sL "https://deb.nodesource.com/setup_${NODE_VERSION}.x" | bash - \
+  && ERLANG_PKG='erlang-solutions_1.0_all.deb' \
+  && ERLANG_URL="https://packages.erlang-solutions.com/${ERLANG_PKG}" \
   && curl -o "/tmp/${ERLANG_PKG}" ${ERLANG_URL} \
   && dpkg -i "/tmp/${ERLANG_PKG}" \
-  && apt-get update \
-  && apt-get -y install \
-    "esl-erlang=1:${ERLANG_OTP_VERSION}" \
+  && apt-get update -qq \
+  && apt-get upgrade -y \
+  && apt-get install -y \
+    nodejs \
     "elixir=${ELIXIR_VERSION}" \
-  && rm -rf /var/lib/apt/lists/* \
+    "esl-erlang=1:${ERLANG_OTP_VERSION}" \
+  && rm -rf '/var/lib/apt/lists/*' \
   && mix local.hex --force \
   && mix local.rebar --force \
-  && mkdir -p /root/.ssh \
-  && ssh-keyscan -t rsa github.com > /root/.ssh/known_hosts \
-  && chmod 700 /root/.ssh \
-  && chmod 600 /root/.ssh/known_hosts
+  && mkdir -p '/root/.ssh' \
+  && ssh-keyscan -t rsa github.com > '/root/.ssh/known_hosts' \
+  && chmod 700 '/root/.ssh' \
+  && chmod 600 '/root/.ssh/known_hosts'
