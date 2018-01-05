@@ -25,6 +25,7 @@ RUN \
     curl \
     git \
     libmysqlclient-dev \
+    postgresql-client \
     mysql-client \
     openssh-client \
     software-properties-common \
