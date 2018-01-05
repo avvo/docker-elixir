@@ -23,7 +23,7 @@ RUN \
     build-essential \
     mysql-client \
     libmysqlclient-dev \
-    postgresql-client-9.6 \
+    postgresql-client \
   && curl -o "/tmp/${ERLANG_PKG}" ${ERLANG_URL} \
   && dpkg -i "/tmp/${ERLANG_PKG}" \
   && apt-get update \
