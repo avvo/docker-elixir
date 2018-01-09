@@ -7,6 +7,9 @@ containers at Avvo.
 
 1. Clone this repo
 2. Edit the Dockerfile you want to update
+3. Keep the primary version number of the image in sync with the Elixir version. So tag '1.5.1'
+   should be Elixir version 1.5.1. Any changes to the dockerfile that are not elixir version
+   related should increase the letter version.
 4. Build and push an image with a version tag:
 ```
 cd elixir-circleci
