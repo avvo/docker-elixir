@@ -1,6 +1,6 @@
 FROM ubuntu:xenial
 
-# For *_DOWNLOAD_SHA256, see: https://github.com/c0b/docker-erlang-otp
+# Adapted from: https://github.com/c0b/docker-erlang-otp/blob/master/20/Dockerfile
 
 ENV \
   OTP_VERSION='20.2.4' \

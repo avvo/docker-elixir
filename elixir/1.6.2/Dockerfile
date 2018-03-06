@@ -1,7 +1,7 @@
 FROM avvo/erlang:20.2.4
 
-# For ELIXIR_DOWNLOAD_SHA256, see: https://github.com/c0b/docker-elixir
-# For NODE_VERSION, see: https://github.com/nodesource/distributions/tree/master/deb
+# Adapted from: https://github.com/c0b/docker-elixir/blob/master/1.6/Dockerfile
+# For latest NODE_VERSION, see: https://github.com/nodesource/distributions/tree/master/deb
 
 ENV \
   ELIXIR_VERSION='v1.6.2' \
