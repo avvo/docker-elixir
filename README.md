@@ -1,7 +1,8 @@
 # Elixir Docker images from Avvo
 
-These Dockerfiles are used to build docker images we use for various Elixir
-containers at Avvo.
+These Dockerfiles are used to build docker images we use for various
+[Elixir](https://hub.docker.com/r/avvo/elixir/tags/) and
+[Erlang](https://hub.docker.com/r/avvo/erlang/tags/) containers at Avvo.
 
 ## Development
 
