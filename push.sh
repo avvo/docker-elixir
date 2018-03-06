@@ -2,7 +2,7 @@
 set -e
 
 VERSION=$1
-if [ -z ${VERSION} ]; then
+if [ -z "${VERSION}" ]; then
   echo "Please provide a Docker image version tag"
   exit 1
 fi
