@@ -1,16 +1,12 @@
 #!/usr/bin/env bash
-set -e
+set -xe
 
-VERSION=$1
-if [ -z "${VERSION}" ]; then
-  echo "Please provide a Docker image version tag"
-  exit 1
+IMAGE="avvo/$(basename $(dirname $(pwd)))"
+TAG="$(basename $(pwd))"
+if [ -n "${1}" ]; then
+  TAG="${TAG}-${1}"
 fi
 
-set -x
-
-IMAGE="avvo/$(basename $(pwd))"
-
-docker build -t "${IMAGE}:${VERSION}" -t "${IMAGE}:latest" .
-docker push "${IMAGE}:${VERSION}"
-docker push "${IMAGE}:latest"
+docker build -t "${IMAGE}:${TAG}" -t "${IMAGE}:latest" .
+#docker push "${IMAGE}:${TAG}"
+#docker push "${IMAGE}:latest"
