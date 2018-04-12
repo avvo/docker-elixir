@@ -1,4 +1,4 @@
-FROM ubuntu:xenial
+FROM avvo/ubuntu:xenial
 
 ENV \
   HOME=/opt/app/ \

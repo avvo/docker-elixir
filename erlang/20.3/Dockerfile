@@ -1,4 +1,4 @@
-FROM ubuntu:xenial
+FROM avvo/ubuntu:xenial
 
 # Adapted from: https://github.com/c0b/docker-erlang-otp/blob/master/20/Dockerfile
 

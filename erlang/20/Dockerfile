@@ -1,4 +1,4 @@
-FROM ubuntu:xenial
+FROM avvo/ubuntu:xenial
 
 ENV OTP_VERSION="20.2.2"
 
@@ -75,4 +75,3 @@ RUN set -xe \
   && HOME=$PWD ./bootstrap \
   && install -v ./rebar3 /usr/local/bin/ \
   && rm -rf /usr/src/rebar3-src
-

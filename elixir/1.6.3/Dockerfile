@@ -1,4 +1,4 @@
-FROM avvo/erlang:20.2.4
+FROM avvo/erlang:20.2.4-a
 
 # Adapted from:
 #   https://github.com/c0b/docker-elixir/blob/master/1.6/Dockerfile
