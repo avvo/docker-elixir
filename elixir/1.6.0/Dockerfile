@@ -1,4 +1,4 @@
-FROM avvo/erlang:20
+FROM avvo/erlang:20-a
 
 # For latest ERLANG_OTP_VERSION, see: https://packages.erlang-solutions.com/erlang/
 # For latest NODE_VERSION, see: https://github.com/nodesource/distributions/tree/master/deb
