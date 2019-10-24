@@ -15,20 +15,20 @@ These Dockerfiles are used to build docker images we use for various
 
 Calling `push.sh` with no argument will use the directory name as the tag. For
 example, the following command will push an `erlang` image with the tags
-`20.2.4` and `latest` to Dockerhub:
+`22-alpine` and `alpine-latest` to Dockerhub:
 
 ```
-cd erlang/20.2.4
-../../push.sh
+cd erlang/22/alpine
+../../../push.sh
 ```
 
 If an argument is passed to `push.sh`, it will be used as a suffix appended with
 a `-` to the current directory name. For example, the following command will
-push an `elixir` image with the tags `1.6.2-b` and `latest` to Dockerhub:
+push an `elixir` image with the tags `1.6.2-alpine-b` and `alpine-latest` to Dockerhub:
 
 ```
-cd elixir/1.6.2
-../../push.sh b
+cd elixir/1.6.2/alpine
+../../../push.sh b
 ```
 
 #### Notes
