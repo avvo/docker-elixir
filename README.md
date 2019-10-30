@@ -31,6 +31,13 @@ cd elixir/1.6.2/alpine
 ../../../push.sh b
 ```
 
+#### Notes
+
+1. You need permissions to write the images on dockerhub. If you're not an Avvo
+   person, you probably don't have access. You can push it up to your own
+   namespace.
+2. Test out your changes on a tag before committing and pushing to latest.
+
 ## Multistage Docker Build for Production
 
 Lower final image size by using multistage docker build and avvo/alpine image.
@@ -71,13 +78,6 @@ COPY --from=build ./_build/prod/rel/app_name/ .
 ENTRYPOINT ["avvoenv", "exec"]
 CMD ["bin/app_name", "start"]
 ```
-
-#### Notes
-
-1. You need permissions to write the images on dockerhub. If you're not an Avvo
-   person, you probably don't have access. You can push it up to your own
-   namespace.
-2. Test out your changes on a tag before committing and pushing to latest.
 
 ## License
 
