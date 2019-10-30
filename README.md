@@ -4,9 +4,36 @@ These Dockerfiles are used to build docker images we use for various
 [Elixir](https://hub.docker.com/r/avvo/elixir/tags/) and
 [Erlang](https://hub.docker.com/r/avvo/erlang/tags/) containers at Avvo.
 
+## Development
+
+1. Clone this repo
+2. Edit the Dockerfile you want to update
+3. Keep the primary version number of the image in sync with the Elixir version.
+   So tag '1.6.2' should be Elixir version 1.6.2. Any changes to the Dockerfile
+   that are not Elixir version related should increase the letter version.
+4. Build and push an image with a version tag
+
+Calling `push.sh` with no argument will use the directory name as the tag. For
+example, the following command will push an `erlang` image with the tags
+`22-alpine` and `alpine-latest` to Dockerhub:
+
+```
+cd erlang/22/alpine
+../../../push.sh
+```
+
+If an argument is passed to `push.sh`, it will be used as a suffix appended with
+a `-` to the current directory name. For example, the following command will
+push an `elixir` image with the tags `1.6.2-alpine-b` and `alpine-latest` to Dockerhub:
+
+```
+cd elixir/1.6.2/alpine
+../../../push.sh b
+```
+
 ## Multistage Docker Build for Production
 
-Lower finale image size by using multistage docker build and avvo/alpine image.
+Lower final image size by using multistage docker build and avvo/alpine image.
 
 ```Dockerfile
 FROM avvo/elixir:1.9.2-alpine-otp22 AS build
@@ -43,33 +70,6 @@ COPY --from=build ./_build/prod/rel/app_name/ .
 
 ENTRYPOINT ["avvoenv", "exec"]
 CMD ["bin/app_name", "start"]
-```
-
-## Development
-
-1. Clone this repo
-2. Edit the Dockerfile you want to update
-3. Keep the primary version number of the image in sync with the Elixir version.
-   So tag '1.6.2' should be Elixir version 1.6.2. Any changes to the Dockerfile
-   that are not Elixir version related should increase the letter version.
-4. Build and push an image with a version tag
-
-Calling `push.sh` with no argument will use the directory name as the tag. For
-example, the following command will push an `erlang` image with the tags
-`22-alpine` and `alpine-latest` to Dockerhub:
-
-```
-cd erlang/22/alpine
-../../../push.sh
-```
-
-If an argument is passed to `push.sh`, it will be used as a suffix appended with
-a `-` to the current directory name. For example, the following command will
-push an `elixir` image with the tags `1.6.2-alpine-b` and `alpine-latest` to Dockerhub:
-
-```
-cd elixir/1.6.2/alpine
-../../../push.sh b
 ```
 
 #### Notes
