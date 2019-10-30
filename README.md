@@ -4,6 +4,47 @@ These Dockerfiles are used to build docker images we use for various
 [Elixir](https://hub.docker.com/r/avvo/elixir/tags/) and
 [Erlang](https://hub.docker.com/r/avvo/erlang/tags/) containers at Avvo.
 
+## Multistage Docker Build for Production
+
+Lower finale image size by using multistage docker build and avvo/alpine image.
+
+```Dockerfile
+FROM avvo/elixir:1.9.2-alpine-otp22 AS build
+
+ENV MIX_ENV=prod
+
+COPY . .
+
+RUN mix do deps.get, deps.compile, compile
+
+# If you have assets to build
+RUN cd assets \
+  && npm install \
+  && npm run deploy \
+  && cd ..
+
+RUN mix phx.digest
+
+RUN mix release
+
+FROM avvo/alpine:3.9
+
+RUN set -xe \
+  && apk --no-cache upgrade \
+  && apk add --no-cache \
+    ncurses-libs \
+    openssl
+
+EXPOSE 4000
+
+WORKDIR /srv/app_name
+
+COPY --from=build ./_build/prod/rel/app_name/ .
+
+ENTRYPOINT ["avvoenv", "exec"]
+CMD ["bin/app_name", "start"]
+```
+
 ## Development
 
 1. Clone this repo
