@@ -10,5 +10,5 @@ if [ -n "${1}" ]; then
 fi
 
 docker build -t "${IMAGE}:${TAG}" -t "${IMAGE}:latest-${BASE}" .
-# docker push "${IMAGE}:${TAG}"
-# docker push "${IMAGE}:latest-${BASE}"
+docker push "${IMAGE}:${TAG}"
+docker push "${IMAGE}:latest-${BASE}"
