@@ -8,27 +8,27 @@ These Dockerfiles are used to build docker images we use for various
 
 1. Clone this repo
 2. Edit the Dockerfile you want to update
-3. Keep the primary version number of the image in sync with the Elixir version.
+3. Keep the primary version number of the image in sync with the Elixir version and its base erlang/otp version.
    So tag '1.6.2' should be Elixir version 1.6.2. Any changes to the Dockerfile
-   that are not Elixir version related should increase the letter version.
+   that are not Elixir version or base image version related should increase the letter version.
 4. Build and push an image with a version tag
 
 Calling `push.sh` with no argument will use the directory name as the tag. For
 example, the following command will push an `erlang` image with the tags
-`22-alpine` and `alpine-latest` to Dockerhub:
+`22.1.3-alpine` and `alpine-latest` to Dockerhub:
 
 ```
-cd erlang/22/alpine
+cd erlang/22.1.3/alpine
 ../../../push.sh
 ```
 
 If an argument is passed to `push.sh`, it will be used as a suffix appended with
 a `-` to the current directory name. For example, the following command will
-push an `elixir` image with the tags `1.6.2-alpine-b` and `alpine-latest` to Dockerhub:
+push an `elixir` image with the tags `1.9.2-alpine-otp22` and `alpine-latest` to Dockerhub:
 
 ```
-cd elixir/1.6.2/alpine
-../../../push.sh b
+cd elixir/1.9.2/alpine
+../../../push.sh otp22
 ```
 
 #### Notes
