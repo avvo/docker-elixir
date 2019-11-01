@@ -19,4 +19,4 @@ fi
 
 docker build -t "${IMAGE}:${TAG}" -t "${IMAGE}:${LATEST_TAG}" .
 docker push "${IMAGE}:${TAG}"
-docker push "${IMAGE}:latest-${BASE}"
+docker push "${IMAGE}:${LATEST_TAG}"
