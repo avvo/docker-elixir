@@ -61,13 +61,7 @@ RUN mix phx.digest
 
 RUN mix release
 
-FROM avvo/alpine:3.9
-
-RUN set -xe \
-  && apk --no-cache upgrade \
-  && apk add --no-cache \
-    ncurses-libs \
-    openssl
+FROM avvo/elixir-release:alpine-3.9
 
 EXPOSE 4000
 
