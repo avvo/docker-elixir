@@ -43,23 +43,21 @@ cd elixir/1.9.2/alpine
 Lower final image size by using multistage docker build and avvo/alpine image.
 
 ```Dockerfile
-FROM avvo/elixir:1.9.2-alpine-otp22 AS build
+FROM avvo/elixir:1.9.4-otp22-alpine-3.9 AS build
 
 ENV MIX_ENV=prod
 
 COPY . .
 
-RUN mix do deps.get, deps.compile, compile
-
 # If you have assets to build
 RUN cd assets \
   && npm install \
   && npm run deploy \
-  && cd ..
+  && cd ../
 
 RUN mix phx.digest
 
-RUN mix release
+RUN mix do deps.get, compile, release
 
 FROM avvo/elixir-release:alpine-3.9
 
@@ -67,7 +65,10 @@ EXPOSE 4000
 
 WORKDIR /srv/app_name
 
-COPY --from=build ./_build/prod/rel/app_name/ .
+COPY --from=build ./_build/prod/app_name-APP_VERSION.tar.gz .
+
+RUN tar zxf app_name-APP_VERSION.tar.gz \
+    && rm app_name-APP_VERSION.tar.gz
 
 ENTRYPOINT ["avvoenv", "exec"]
 CMD ["bin/app_name", "start"]
