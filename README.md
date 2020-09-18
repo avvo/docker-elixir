@@ -8,27 +8,27 @@ These Dockerfiles are used to build docker images we use for various
 
 1. Clone this repo
 2. Edit the Dockerfile you want to update
-3. Keep the primary version number of the image in sync with the Elixir version.
+3. Keep the primary version number of the image in sync with the Elixir version and its base erlang/otp version.
    So tag '1.6.2' should be Elixir version 1.6.2. Any changes to the Dockerfile
-   that are not Elixir version related should increase the letter version.
+   that are not Elixir version or base image version related should increase the letter version.
 4. Build and push an image with a version tag
 
 Calling `push.sh` with no argument will use the directory name as the tag. For
 example, the following command will push an `erlang` image with the tags
-`20.2.4` and `latest` to Dockerhub:
+`22.1.3-alpine` and `alpine-latest` to Dockerhub:
 
 ```
-cd erlang/20.2.4
-../../push.sh
+cd erlang/22.1.3/alpine
+../../../push.sh
 ```
 
 If an argument is passed to `push.sh`, it will be used as a suffix appended with
 a `-` to the current directory name. For example, the following command will
-push an `elixir` image with the tags `1.6.2-b` and `latest` to Dockerhub:
+push an `elixir` image with the tags `1.9.2-alpine-otp22` and `alpine-latest` to Dockerhub:
 
 ```
-cd elixir/1.6.2
-../../push.sh b
+cd elixir/1.9.2/alpine
+../../../push.sh otp22
 ```
 
 #### Notes
@@ -37,6 +37,42 @@ cd elixir/1.6.2
    person, you probably don't have access. You can push it up to your own
    namespace.
 2. Test out your changes on a tag before committing and pushing to latest.
+
+## Multistage Docker Build for Production
+
+Lower final image size by using multistage docker build and avvo/alpine image.
+
+```Dockerfile
+FROM avvo/elixir:1.9.4-otp22-alpine-3.9 AS build
+
+ENV MIX_ENV=prod
+
+COPY . .
+
+# If you have assets to build
+RUN cd assets \
+  && npm install \
+  && npm run deploy \
+  && cd ../
+
+RUN mix phx.digest
+
+RUN mix do deps.get, compile, release
+
+FROM avvo/elixir-release:alpine-3.9
+
+EXPOSE 4000
+
+WORKDIR /srv/app_name
+
+COPY --from=build ./_build/prod/app_name-APP_VERSION.tar.gz .
+
+RUN tar zxf app_name-APP_VERSION.tar.gz \
+    && rm app_name-APP_VERSION.tar.gz
+
+ENTRYPOINT ["avvoenv", "exec"]
+CMD ["bin/app_name", "start"]
+```
 
 ## License
 
