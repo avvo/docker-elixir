@@ -1,22 +1,37 @@
-#!/usr/bin/env bash
-set -xe
+#!/bin/bash
 
-IMAGE="avvo/$(basename $(dirname $(dirname $(pwd))))"
-VERSION="$(basename $(dirname $(pwd)))"
-BASE="$(basename $(pwd))"
-TAG="${VERSION}-${BASE}"
-LATEST_TAG="latest"
+for i in "$@"
+do
+case $i in
+    --elixir=*)
+    elixir="${i#*=}"
+    shift
+    ;;
+    --otp=*|--erlang=*)
+    erlang="${i#*=}"
+    shift
+    ;;
+    --os-version=*)
+    os_version="${i#*=}"
+    shift
+    ;;
+esac
+done
 
-if [ -n "${1}" ]; then
-  TAG="${TAG}-${1}"
-fi
+erlang_image_tag=$(./build-erlang.sh ${erlang} ${os_version})
+elixir_image_tag=$(./build-elixir.sh ${elixir} ${erlang} ${os_version})
 
-if [ "${IMAGE}" == "avvo/elixir-release" ]; then
-  LATEST_TAG="${LATEST_TAG}-${VERSION}"
-else
-  LATEST_TAG="${LATEST_TAG}-${BASE}"
-fi
+try_to_push() {
+  image=$1
 
-docker build -t "${IMAGE}:${TAG}" -t "${IMAGE}:${LATEST_TAG}" .
-docker push "${IMAGE}:${TAG}"
-docker push "${IMAGE}:${LATEST_TAG}"
+  # This command have a tendancy to intermittently fail
+  docker push ${image} ||
+    (sleep $((20 + $RANDOM % 40)) && docker push ${image}) ||
+    (sleep $((20 + $RANDOM % 40)) && docker push ${image}) ||
+    (sleep $((20 + $RANDOM % 40)) && docker push ${image}) ||
+    (sleep $((20 + $RANDOM % 40)) && docker push ${image}) ||
+    (exit 0)
+}
+
+try_to_push avvo/erlang:${erlang_image_tag}
+try_to_push avvo/elixir:${elixir_image_tag}
