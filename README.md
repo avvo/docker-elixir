@@ -29,7 +29,7 @@ will build and push to 2 images:
 
 ## Multistage Docker Build for Production
 
-Lower final image size by using multistage docker build and avvo/alpine image.
+Lower final image size by using multistage docker build and fedora image.
 
 ```Dockerfile
 FROM avvo/elixir:1.11.2-erlang-23.1.2-fedora-32 as build
