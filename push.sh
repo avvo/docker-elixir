@@ -24,7 +24,7 @@ elixir_image_tag=$(./build-elixir.sh ${elixir} ${erlang} ${os_version})
 try_to_push() {
   image=$1
 
-  # This command have a tendancy to intermittently fail
+  # This command have a tendency to intermittently fail
   docker push ${image} ||
     (sleep $((20 + $RANDOM % 40)) && docker push ${image}) ||
     (sleep $((20 + $RANDOM % 40)) && docker push ${image}) ||
