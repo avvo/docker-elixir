@@ -1,3 +1,6 @@
+# Adapted from:
+#   https://github.com/hexpm/bob/blob/b0d1aacf386d90ae2a4897ad769b6b074a33b5ae/priv/scripts/docker/erlang-alpine.dockerfile
+
 ARG OS_VERSION
 
 FROM fedora:${OS_VERSION} AS build

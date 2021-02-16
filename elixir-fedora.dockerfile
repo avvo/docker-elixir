@@ -1,3 +1,6 @@
+# Adapted from:
+#   https://github.com/hexpm/bob/blob/b0d1aacf386d90ae2a4897ad769b6b074a33b5ae/priv/scripts/docker/elixir-alpine.dockerfile
+
 ARG ARCH
 ARG OS_VERSION
 ARG ERLANG
